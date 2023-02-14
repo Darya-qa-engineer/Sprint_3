@@ -4,11 +4,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from models.login_form import LoginForm
-from test_const import Locators, Const
-from test_util import DefaultUser
+from test_const import Locators, Const, Strings
 
 
-def test_user_navigation_to_personal_account():
+def test_user_navigation_to_personal_account(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -18,8 +17,7 @@ def test_user_navigation_to_personal_account():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
@@ -29,9 +27,13 @@ def test_user_navigation_to_personal_account():
 
     wait.until(EC.visibility_of_element_located((By.XPATH, Locators.ACCOUNT_PAGE_BODY)))
 
+    btn = driver.find_element(By.XPATH, Locators.LOGOUT_BTN)
+    assert btn.text == Strings.LOGOUT and btn.is_displayed()
+
     driver.quit()
 
-def test_user_navigation_to_constructor():
+
+def test_user_navigation_to_constructor(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -41,8 +43,7 @@ def test_user_navigation_to_constructor():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
@@ -55,10 +56,13 @@ def test_user_navigation_to_constructor():
     driver.find_element(By.XPATH, Locators.HEADER_CONSTRUCTOR_LINK).click()
     wait.until(EC.url_to_be(Const.ROOT_URL))
 
+    header = driver.find_element(By.XPATH, Locators.MAIN_PAGE_MAIN_HEADER)
+    assert header.text == Strings.MAIN_PAGE_HEADER and header.is_displayed()
+
     driver.quit()
 
 
-def test_user_navigation_to_constructor_via_logo():
+def test_user_navigation_to_constructor_via_logo(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -68,8 +72,7 @@ def test_user_navigation_to_constructor_via_logo():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
@@ -81,5 +84,8 @@ def test_user_navigation_to_constructor_via_logo():
 
     driver.find_element(By.XPATH, Locators.HEADER_LOGO).click()
     wait.until(EC.url_to_be(Const.ROOT_URL))
+
+    header = driver.find_element(By.XPATH, Locators.MAIN_PAGE_MAIN_HEADER)
+    assert header.text == Strings.MAIN_PAGE_HEADER and header.is_displayed()
 
     driver.quit()

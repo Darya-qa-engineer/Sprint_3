@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 
 from test_const import Locators
+from test_util import User
 
 
 class LoginForm:
@@ -16,3 +17,7 @@ class LoginForm:
 
     def submit(self):
         self.form.find_element(By.XPATH, Locators.LOGIN_FORM_SUBMIT_BTN).click()
+
+    def set_user_data(self, user: User):
+        self.set_email(user.email)
+        self.set_password(user.password)

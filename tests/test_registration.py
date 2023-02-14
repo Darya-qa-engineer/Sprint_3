@@ -3,12 +3,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+from models.login_form import LoginForm
 from models.reg_form import RegForm
 from test_const import Locators, Const
-from test_util import Generate
+from test_asserts import assert_logged_in_on_root
 
 
-def test_registration():
+def test_registration(fake_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -22,18 +23,21 @@ def test_registration():
 
     wait.until(EC.url_contains(Const.PATH_REG))
 
-    user = Generate.user()
     form = RegForm(driver)
-    form.set_name(user.name)
-    form.set_email(user.email)
-    form.set_password(user.password)
+    form.set_user_data(fake_user)
     form.submit()
 
+    wait.until(EC.url_matches(Const.PATH_LOGIN))
+    login_form = LoginForm(driver)
+    login_form.set_user_data(fake_user)
+    login_form.submit()
+
     wait.until(EC.url_matches(Const.ROOT_URL))
+    assert_logged_in_on_root(driver, wait)
     driver.quit()
 
 
-def test_registration_without_name():
+def test_registration_without_name(fake_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -48,10 +52,10 @@ def test_registration_without_name():
     wait.until(EC.url_contains(Const.PATH_REG))
 
     current_url = driver.current_url
-    user = Generate.user()
+
     form = RegForm(driver)
-    form.set_email(user.email)
-    form.set_password(user.password)
+    form.set_email(fake_user.email)
+    form.set_password(fake_user.password)
     form.submit()
 
     assert current_url == driver.current_url

@@ -1,4 +1,3 @@
-
 class Const:
     ROOT_URL = 'https://stellarburgers.nomoreparties.site/'
     PATH_LOGIN = '/login'
@@ -7,9 +6,23 @@ class Const:
     PATH_ACCOUNT = '/account'
     CLS_BURGER_CONSTRUCTOR_ING_TAB_SELECTED = 'tab_tab_type_current'
 
+
+class Strings:
+    MAIN_PAGE_HEADER = 'Соберите бургер'
+    LOGOUT = 'Выход'
+    LOGIN = 'Вход'
+    MAKE_ORDER = 'Оформить заказ'
+
+
 class Locators:
+    # Главный заголовок
+    MAIN_PAGE_MAIN_HEADER = '//h1'
+
     # Кнопка "Войти в аккаунт" в баскете
     BASKET_LOGIN_BTN = '//section[starts-with(@class, "BurgerConstructor_basket")]//button'
+
+    # Кнопка "Оформить заказ" в баскете
+    BASKET_MAKE_ORDER_BTN = '//section[starts-with(@class, "BurgerConstructor_basket")]//button'
 
     # Контейнер основного компонента в ЛК
     ACCOUNT_PAGE_BODY = '//div[starts-with(@class, "Account_account")]'
@@ -37,6 +50,9 @@ class Locators:
 
     # Форма логина
     LOGIN_FORM = '//form'
+
+    # Форма логина
+    LOGIN_FORM_HEADER = '//div[starts-with(@class, "Auth_login")]/h2'
 
     # Поле Email на странице авторизации
     LOGIN_FORM_EMAIL = './/fieldset[1]//input'

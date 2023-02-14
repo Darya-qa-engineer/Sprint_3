@@ -27,5 +27,3 @@ class User:
         self.email = email
         self.password = password
 
-
-DefaultUser = User('Дарья', 'sergeeva06261@ya.ru', '8Zho04A9')

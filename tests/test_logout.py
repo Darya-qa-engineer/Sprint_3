@@ -3,10 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from models.login_form import LoginForm
-from test_util import DefaultUser
-from test_const import Locators, Const
+from test_const import Locators, Const, Strings
 
-def test_logout():
+
+def test_logout(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -16,8 +16,7 @@ def test_logout():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
@@ -29,4 +28,8 @@ def test_logout():
 
     driver.find_element(By.XPATH, Locators.LOGOUT_BTN).click()
     wait.until(EC.url_contains(Const.PATH_LOGIN))
+
+    header = driver.find_element(By.XPATH, Locators.LOGIN_FORM_HEADER)
+    assert header.text == Strings.LOGIN
+
     driver.quit()

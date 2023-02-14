@@ -3,12 +3,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from models.login_form import LoginForm
-from test_util import DefaultUser, Generate
-import time
-from test_const import Locators, Const
+from test_util import Generate
+from test_asserts import assert_logged_in_on_root
+from test_const import Locators, Const, Strings
 
 
-def test_login_account_via_login_btn():
+def test_login_account_via_forgot_path_back_link(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -23,14 +23,16 @@ def test_login_account_via_login_btn():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
+    btn = driver.find_element(By.XPATH, Locators.BASKET_MAKE_ORDER_BTN)
+    assert btn.text == Strings.MAKE_ORDER
     driver.quit()
 
-def test_login_via_reg_page():
+
+def test_login_via_reg_page(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -51,15 +53,17 @@ def test_login_via_reg_page():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
+
+    assert_logged_in_on_root(driver, wait)
+
     driver.quit()
 
 
-def test_login_account_via_login_btn():
+def test_login_account_via_login_btn(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -69,15 +73,17 @@ def test_login_account_via_login_btn():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
+
+    assert_logged_in_on_root(driver, wait)
+
     driver.quit()
 
 
-def test_login_account_via_the_button_personal_account():
+def test_login_account_via_the_button_personal_account(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -87,15 +93,17 @@ def test_login_account_via_the_button_personal_account():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
+
+    assert_logged_in_on_root(driver, wait)
+
     driver.quit()
 
 
-def test_login_invalid_password():
+def test_login_invalid_password(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -106,10 +114,9 @@ def test_login_invalid_password():
 
     current_url = driver.current_url
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
+    form.set_email(default_user.email)
     form.set_password(Generate.user_password())
     form.submit()
 
-    time.sleep(3)
     assert current_url == driver.current_url
     driver.quit()

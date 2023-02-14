@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 
 from test_const import Locators
+from test_util import User
 
 
 class RegForm:
@@ -19,3 +20,8 @@ class RegForm:
 
     def submit(self):
         self.form.find_element(By.XPATH, Locators.REG_FORM_SUBMIT_BTN).click()
+
+    def set_user_data(self, user: User):
+        self.set_name(user.name)
+        self.set_password(user.password)
+        self.set_email(user.email)

@@ -6,10 +6,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from models.burger_constructor import BurgerConstructor
 from models.login_form import LoginForm
 from test_const import Locators, Const
-from test_util import DefaultUser
 
 
-def test_user_navigation_to_constructor():
+def test_user_navigation_to_constructor(default_user):
     driver = webdriver.Chrome()
     driver.get(Const.ROOT_URL)
     wait = WebDriverWait(driver, 5)
@@ -19,8 +18,7 @@ def test_user_navigation_to_constructor():
     wait.until(EC.url_contains(Const.PATH_LOGIN))
 
     form = LoginForm(driver)
-    form.set_email(DefaultUser.email)
-    form.set_password(DefaultUser.password)
+    form.set_user_data(default_user)
     form.submit()
 
     wait.until(EC.url_to_be(Const.ROOT_URL))
