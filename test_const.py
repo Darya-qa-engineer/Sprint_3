@@ -12,7 +12,7 @@ class Strings:
     LOGOUT = 'Выход'
     LOGIN = 'Вход'
     MAKE_ORDER = 'Оформить заказ'
-
+    CONSTRUCTOR = 'Конструктор'
 
 class Locators:
     # Главный заголовок
@@ -40,7 +40,7 @@ class Locators:
     REG_FORM_INPUT_EMAIL = './/fieldset[2]//input'
 
     # Поле "Пароль" в форме регистрации
-    REG_FORM_INPUT_PASS = './/fieldset[3]//input'
+    REG_FORM_INPUT_PASS = './/input[@type="password"]'
 
     # Кнопка "Войти" на странице регистрации
     REG_FORM_SUBMIT_BTN = './button'
@@ -55,10 +55,10 @@ class Locators:
     LOGIN_FORM_HEADER = '//div[starts-with(@class, "Auth_login")]/h2'
 
     # Поле Email на странице авторизации
-    LOGIN_FORM_EMAIL = './/fieldset[1]//input'
+    LOGIN_FORM_EMAIL = './/input[@name="name"]'
 
     # Поле Пароль на странице авторизации
-    LOGIN_FORM_PASS = './/fieldset[2]//input'
+    LOGIN_FORM_PASS = './/input[@type="password"]'
 
     # Кнопка "Войти" на странице авторизации
     LOGIN_FORM_SUBMIT_BTN = './button'
@@ -73,7 +73,7 @@ class Locators:
     FORGOT_PASS_PAGE_LOGIN = f'//a[@href="{Const.PATH_LOGIN}"]'
 
     # Ссылка "Конструктор" в хидере
-    HEADER_CONSTRUCTOR_LINK = '//header//ul/li[1]'
+    HEADER_CONSTRUCTOR_LINK = f'//header//*[contains(text(), "{Strings.CONSTRUCTOR}")]'
 
     # Лого
     HEADER_LOGO = '//div[starts-with(@class, "AppHeader_header__logo")]'

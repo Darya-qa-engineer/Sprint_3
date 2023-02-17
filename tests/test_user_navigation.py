@@ -1,16 +1,12 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from models.login_form import LoginForm
 from test_const import Locators, Const, Strings
 
 
-def test_user_navigation_to_personal_account(default_user):
-    driver = webdriver.Chrome()
+def test_user_navigation_to_personal_account(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -30,13 +26,9 @@ def test_user_navigation_to_personal_account(default_user):
     btn = driver.find_element(By.XPATH, Locators.LOGOUT_BTN)
     assert btn.text == Strings.LOGOUT and btn.is_displayed()
 
-    driver.quit()
 
-
-def test_user_navigation_to_constructor(default_user):
-    driver = webdriver.Chrome()
+def test_user_navigation_to_constructor(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -59,13 +51,9 @@ def test_user_navigation_to_constructor(default_user):
     header = driver.find_element(By.XPATH, Locators.MAIN_PAGE_MAIN_HEADER)
     assert header.text == Strings.MAIN_PAGE_HEADER and header.is_displayed()
 
-    driver.quit()
 
-
-def test_user_navigation_to_constructor_via_logo(default_user):
-    driver = webdriver.Chrome()
+def test_user_navigation_to_constructor_via_logo(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -88,4 +76,3 @@ def test_user_navigation_to_constructor_via_logo(default_user):
     header = driver.find_element(By.XPATH, Locators.MAIN_PAGE_MAIN_HEADER)
     assert header.text == Strings.MAIN_PAGE_HEADER and header.is_displayed()
 
-    driver.quit()

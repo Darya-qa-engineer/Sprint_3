@@ -1,17 +1,14 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
+
 from models.login_form import LoginForm
 from test_util import Generate
 from test_asserts import assert_logged_in_on_root
 from test_const import Locators, Const, Strings
 
 
-def test_login_account_via_forgot_path_back_link(default_user):
-    driver = webdriver.Chrome()
+def test_login_account_via_forgot_path_back_link(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
     wait.until(EC.url_contains(Const.PATH_LOGIN))
@@ -29,13 +26,10 @@ def test_login_account_via_forgot_path_back_link(default_user):
     wait.until(EC.url_to_be(Const.ROOT_URL))
     btn = driver.find_element(By.XPATH, Locators.BASKET_MAKE_ORDER_BTN)
     assert btn.text == Strings.MAKE_ORDER
-    driver.quit()
 
 
-def test_login_via_reg_page(default_user):
-    driver = webdriver.Chrome()
+def test_login_via_reg_page(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -60,13 +54,9 @@ def test_login_via_reg_page(default_user):
 
     assert_logged_in_on_root(driver, wait)
 
-    driver.quit()
 
-
-def test_login_account_via_login_btn(default_user):
-    driver = webdriver.Chrome()
+def test_login_account_via_login_btn(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -80,13 +70,9 @@ def test_login_account_via_login_btn(default_user):
 
     assert_logged_in_on_root(driver, wait)
 
-    driver.quit()
 
-
-def test_login_account_via_the_button_personal_account(default_user):
-    driver = webdriver.Chrome()
+def test_login_account_via_the_button_personal_account(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.PERSONAL_ACCOUNT_BTN).click()
 
@@ -100,13 +86,9 @@ def test_login_account_via_the_button_personal_account(default_user):
 
     assert_logged_in_on_root(driver, wait)
 
-    driver.quit()
 
-
-def test_login_invalid_password(default_user):
-    driver = webdriver.Chrome()
+def test_login_invalid_password(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.PERSONAL_ACCOUNT_BTN).click()
 
@@ -119,4 +101,3 @@ def test_login_invalid_password(default_user):
     form.submit()
 
     assert current_url == driver.current_url
-    driver.quit()

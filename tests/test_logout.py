@@ -1,15 +1,11 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 from models.login_form import LoginForm
 from test_const import Locators, Const, Strings
 
 
-def test_logout(default_user):
-    driver = webdriver.Chrome()
+def test_logout(driver, wait, default_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -32,4 +28,3 @@ def test_logout(default_user):
     header = driver.find_element(By.XPATH, Locators.LOGIN_FORM_HEADER)
     assert header.text == Strings.LOGIN
 
-    driver.quit()

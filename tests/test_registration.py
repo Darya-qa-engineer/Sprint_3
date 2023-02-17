@@ -1,7 +1,5 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from models.login_form import LoginForm
 from models.reg_form import RegForm
@@ -9,10 +7,8 @@ from test_const import Locators, Const
 from test_asserts import assert_logged_in_on_root
 
 
-def test_registration(fake_user):
-    driver = webdriver.Chrome()
+def test_registration(driver, wait, fake_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -34,13 +30,10 @@ def test_registration(fake_user):
 
     wait.until(EC.url_matches(Const.ROOT_URL))
     assert_logged_in_on_root(driver, wait)
-    driver.quit()
 
 
-def test_registration_without_name(fake_user):
-    driver = webdriver.Chrome()
+def test_registration_without_name(driver, wait, fake_user):
     driver.get(Const.ROOT_URL)
-    wait = WebDriverWait(driver, 5)
 
     driver.find_element(By.XPATH, Locators.BASKET_LOGIN_BTN).click()
 
@@ -59,4 +52,3 @@ def test_registration_without_name(fake_user):
     form.submit()
 
     assert current_url == driver.current_url
-    driver.quit()
